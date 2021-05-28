@@ -22,14 +22,14 @@ def addrec():
          with sql.connect("database.db") as con:
             cur = con.cursor()
             
-            cur.execute("INSERT INTO students (name,addr,city,pin) 
-               VALUES (?,?,?,?)",(nm,addr,city,pin) )
+            cur.execute("INSERT INTO students (name,addr,city,pin) VALUES (?,?,?,?)",(nm,addr,city,pin) )
             
             con.commit()
             msg = "Record successfully added"
       except:
-         con.rollback()
-         msg = "error in insert operation"
+         with sql.connect("database.db") as con:
+            con.rollback()
+            msg = "error in insert operation"
       
       finally:
          return render_template("result.html",msg = msg)
